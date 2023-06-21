@@ -1,3 +1,3 @@
 export default function App() {
-  return "Hi"
+  return "My to-do App"
 }
