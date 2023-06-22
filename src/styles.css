@@ -147,12 +147,3 @@
   'opsz' 48
 }
 
-.to-do {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.myTo-dos {
-    display: flex;
-    flex-direction: column;
-}

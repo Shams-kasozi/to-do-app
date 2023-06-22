@@ -1,59 +1,53 @@
+import { useState } from "react"
 import "./styles.css"
 
 export default function App() {
+  const [newItem, setNewItem] = useState("")
+  const [todos, setTodos] = useState([])
+
+  function hanleSubmit(event) {
+    event.preventDefault()
+
+    
+    setTodos(currentTodos => {
+      return [
+        ...currentTodos, {id: crypto.randomUUID(), title: newItem, completed: false},
+      ]
+    })
+  }
+
   return (
     <>
-    <form className="new-item-form">
-      <div className="form-row">
-        <label htmlFor="item">New Item</label>
-        <input types="text" id="item"/>
-      </div>
-      <button className="btn">Add to-do</button>
-    </form>
-    <h1 className="header">My to-do list</h1>
-    <ul className="list">
-      <li className="myTo-dos">
-        <div className="to-do">
-          <div>
-            <label>
-              <input type="checkbox" />
-              item 1
-            </label>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">delete</span>
-            <span class="material-symbols-outlined">edit</span>
-            <span class="material-symbols-outlined">drag_pan</span>
-          </div>
+      <form onSubmit={hanleSubmit} className="new-item-form">
+        <div className="form-row">
+          <label htmlFor="item">Adding New Todo</label>
+          <input 
+          value={newItem}
+          onChange={event => setNewItem(event.target.value)}
+          type="text" 
+          id="item"
+          />
         </div>
-        <div className="to-do">
-          <div>
+        <button className="btn">Add to-do</button>
+      </form>
+      <h1 className="header">To-do list</h1>
+      <ul className="list">
+        {todos.map(todo => {
+          return(
+          <li>
             <label>
-              <input type="checkbox" />
-              item 1
+              <input type="checkbox" checked={todo.completed} />
+              {todo.title}
             </label>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">delete</span>
-            <span class="material-symbols-outlined">edit</span>
-            <span class="material-symbols-outlined">drag_pan</span>
-          </div>
-        </div>
-        <div className="to-do">
-          <div>
-            <label>
-              <input type="checkbox" />
-              item 1
-            </label>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">delete</span>
-            <span class="material-symbols-outlined">edit</span>
-            <span class="material-symbols-outlined">drag_pan</span>
-          </div>
-        </div>
-      </li>
-    </ul>
+            <div>
+              <span class="material-symbols-outlined">delete</span>
+              <span class="material-symbols-outlined">edit</span>
+              <span class="material-symbols-outlined">drag_pan</span>
+            </div>
+          </li>)
+          })
+        }
+      </ul>
     </>
   )
 }
