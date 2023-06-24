@@ -1,53 +1,45 @@
 import { useState } from "react"
 import "./styles.css"
+import { NewTodoFrom } from "./NewTodoForm"
+import { TodoList } from "./TodoList"
 
 export default function App() {
+  // const itemStyle = {textDecoration: completed ? 'line-through' : 'none',};
   const [newItem, setNewItem] = useState("")
   const [todos, setTodos] = useState([])
 
-  function hanleSubmit(event) {
-    event.preventDefault()
-
-    
+  //the function to mark a finished todo, it returns 'completed' for only the selected todo
+  function toggleTodo(id, completed) {
     setTodos(currentTodos => {
-      return [
-        ...currentTodos, {id: crypto.randomUUID(), title: newItem, completed: false},
-      ]
+      return currentTodos.map(todo => {
+        if (todo.id === id) {
+          return { ...todo, completed}
+        }
+        return todo
+      })
     })
   }
 
-  return (
+  // the delete function, it only returns todos that do not have this particular ID
+  function deleteTodo(id) {
+    setTodos(currentTodos => {
+      return currentTodos.filter(todo => todo.id !== id)
+    })
+  }
+
+  function addTodo(title) {
+    setTodos(currentTodos => {
+      return [
+        ...currentTodos, {id: crypto.randomUUID(), title, completed: false},
+      ]
+    })
+  } 
+
+  return (  
     <>
-      <form onSubmit={hanleSubmit} className="new-item-form">
-        <div className="form-row">
-          <label htmlFor="item">Adding New Todo</label>
-          <input 
-          value={newItem}
-          onChange={event => setNewItem(event.target.value)}
-          type="text" 
-          id="item"
-          />
-        </div>
-        <button className="btn">Add to-do</button>
-      </form>
+      < NewTodoFrom onSubmit={addTodo} />
       <h1 className="header">To-do list</h1>
-      <ul className="list">
-        {todos.map(todo => {
-          return(
-          <li>
-            <label>
-              <input type="checkbox" checked={todo.completed} />
-              {todo.title}
-            </label>
-            <div>
-              <span class="material-symbols-outlined">delete</span>
-              <span class="material-symbols-outlined">edit</span>
-              <span class="material-symbols-outlined">drag_pan</span>
-            </div>
-          </li>)
-          })
-        }
-      </ul>
+      < TodoList todos= { todos } toggleTodo={toggleTodo} deleteTodo={deleteTodo}/>
     </>
   )
 }
