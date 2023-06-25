@@ -4,7 +4,7 @@
   }
   
   body {
-    background: #333;
+    background: #01363e;
     color: hsl(200, 100%, 90%);
     max-width: 400px;
     padding: 1rem;
@@ -148,3 +148,8 @@
 }
 
 span { cursor: pointer; }
+
+.call-to-action {
+    display: flex;
+    
+}

@@ -1,4 +1,4 @@
-export function TodoItem({ completed, id, title, toggleTodo, DeleteTodo }) {
+export function TodoItem({ completed, id, title, toggleTodo, deleteTodo }) {
     return(
         <li key="checkbox">
             <label>
@@ -7,7 +7,7 @@ export function TodoItem({ completed, id, title, toggleTodo, DeleteTodo }) {
               />
               {title}
             </label>
-            <div>
+            <div className="call-to-action">
               <span onClick={() => deleteTodo(id)} class="material-symbols-outlined">delete</span>
               <span class="material-symbols-outlined">edit</span>
               <span class="material-symbols-outlined">drag_pan</span>

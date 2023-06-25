@@ -1,12 +1,27 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./styles.css"
 import { NewTodoFrom } from "./NewTodoForm"
 import { TodoList } from "./TodoList"
 
 export default function App() {
-  // const itemStyle = {textDecoration: completed ? 'line-through' : 'none',};
-  const [newItem, setNewItem] = useState("")
-  const [todos, setTodos] = useState([])
+
+  //Here the useState hook is checking the localStorage and getting the value if it exists
+  //if it doesn't it just defaults to an empty array
+  const [todos, setTodos] = useState(() => {
+    const localValue = localStorage.getItem("ITEMS")
+    if (localValue == null) return[]
+    return JSON.parse(localValue)
+  })
+
+  //the useEffect hook bellow doesn't return anything but it will help our data stay 
+  //persistent even after a refresh by running the inside function every time the
+  //items in the array change
+
+  //So everytime we modify our todos, the function inside useEffect runs and saves the 
+  //value inside of localStorage
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos))
+  }, [todos])
 
   //the function to mark a finished todo, it returns 'completed' for only the selected todo
   function toggleTodo(id, completed) {
